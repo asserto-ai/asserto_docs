@@ -33,6 +33,12 @@ https://dashboard.mintlify.com/asserto/asserto
 - _samples (sample code/docs from starter kit)
 
 
+### components
+
+- <CardGroup><Card>
+- <AccordionGroup><Accordion>
+
+
 ### TODO
 
 - [ ] add Twitter / X

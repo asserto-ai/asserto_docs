@@ -1,74 +1,106 @@
 ---
 title: 'Quickstart'
-description: 'Start building awesome documentation in under 5 minutes'
+description: 'Create and test a prompt in 5 minutes'
 ---
 
-## Setup your development
+## 📘 Quickstart Guide
 
-Learn how to update your docs locally and deploy them to the public.
+### In this quickstart we will create a prompt for classifying online reviews of movies as either `positive` or `negative`.
 
-### Edit and preview
+---
 
-<AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
-  </Accordion>
+### 1. Create Your First Prompt
 
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: `npm i -g mintlify`
-    2\. Run the following command at the root of your documentation (where
-    `mint.json` is): `mintlify dev`
-  </Accordion>
-</AccordionGroup>
+- Navigate to Prompt list page ([https://app.asserto.ai/app/prompt](https://app.asserto.ai/app/prompt))
+- Set name to `Movie Review Sentiment`
 
-### Deploy your changes
+You will see the Prompt Development Dashboard.
 
-<AccordionGroup>
-  <Accordion icon="message-bot" title="Install our Github app">
-    Our Github app automatically deploys your changes to your docs site, so you
-    don't need to manage deployments yourself. You can find the link to install on
-    your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-    successfully installed, there should be a check mark next to the commit hash
-    of the repo.
-  </Accordion>
+---
 
-  <Accordion icon="rocket" title="Push your changes">
-    [Commit and push your changes to
-    Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-    for your changes to update in your docs site. If you push and don't see that
-    the Github app successfully deployed your changes, you can also manually
-    update your docs through our [dashboard](https://dashboard.mintlify.com).
-  </Accordion>
-</AccordionGroup>
+### 2. Define the Prompt
 
-## Update your docs
+In the left panel of the dashboard, you can define the messages that make up the prompt.
 
-Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
+#### Step 1: `system` message
 
-<CardGroup>
-  <Card title="Style Your Docs" icon="paintbrush" href="/settings/global">
-    Add flair to your docs with personalized branding.
-  </Card>
+Define the LLM's role and instructions. Specify the expected output format to make the response machine-readable.
 
-  <Card title="Add API Endpoints" icon="square-code" href="/api-playground/configuration">
-    Implement your OpenAPI spec and enable API user interaction.
-  </Card>
+```plaintext
+You are a sentiment classifier.  
+Classify the following movie review as 'positive' or 'negative'.  
 
-  <Card title="Integrate Analytics" icon="chart-mixed" href="/analytics/supported-integrations">
-    Draw insights from user interactions with your documentation.
-  </Card>
+Respond in JSON format:  
+{"sentiment": "<result>"}
+```
 
-  <Card title="Host on a Custom Domain" icon="browser" href="/settings/custom-domain/subdomain">
-    Keep your docs on your own website's subdomain.
-  </Card>
-</CardGroup>
+#### Step 2: `user` message
 
-look ma
+Write a template for the user input using a placeholder for the review text.
+
+Templates use Mustache syntax — wrap parameter names in double curly braces (`{{ }}`).
+
+```mustache
+Review: {{review}}
+```
+
+---
+
+### 3. Configure the Prompt
+
+In the right-side panel, go to the **Config** tab. Here you'll configure how the LLM runs and define the inputs and outputs.
+
+#### Step 1: Model Configuration
+
+- Select a model (e.g., `gpt-4`, `claude`, etc.)
+- Set temperature to `0` for consistent deterministic outputs
+- Ensure **response format** is set to `JSON`
+
+#### Step 2: Define Prompt Parameters
+
+- Add a parameter named `review`
+- Set its **type** to `text` to allow multi-line input
+- This corresponds to the `{{review}}` placeholder in your prompt
+
+#### Step 3: Define the Output Schema
+
+- Add a result field named `sentiment`
+- This matches the key in the expected LLM JSON response
+- Used for validation and test automation
+
+---
+
+### 4. Try it Out with Playground
+
+On the right-side panel, switch to the **Playground** tab.
+
+Here you can run quick tests, inspect the LLM response, and make prompt edits.
+
+#### Step 1: Add Sample Input
+
+Provide a test value for the `review` parameter. For example:
+
+**Positive review**
+```json
+{
+  "review": "A visually stunning masterpiece with a moving story and brilliant acting."
+}
+```
+
+#### Step 2: Run and Inspect
+
+- Click **Submit**
+- Review the output JSON response
+- Iterate on prompt instructions if necessary for better accuracy
+
+#### Step 3: Repeat with Another Input
+
+Try different inputs to validate how well the prompt handles variations.
+
+**Negative review**
+```json
+{
+  "review": "The plot was confusing, the pacing was terrible, and the acting was wooden."
+}
+```
+
