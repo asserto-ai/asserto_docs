@@ -1,0 +1,54 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Asserto AI docs",
+  "logo": {
+    "light": "/logo/asserto-logo.png",
+    "dark": "/logo/asserto-logo.png"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#07C983",
+    "dark": "#0D9373",
+    "anchors": {
+      "from": "#0D9373",
+      "to": "#07C983"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:hi@asserto.ai"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Go to App",
+    "url": "https://app.asserto.ai"
+  },
+  "tabs": [
+  ],
+  "anchors": [
+    {
+      "name": "Go to App",
+      "icon": "desktop",
+      "url": "https://app.asserto.ai"
+    },
+    {
+      "name": "Website",
+      "icon": "globe",
+      "url": "https://asserto.ai"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": [
+        "introduction",
+        "quickstart"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "linkedin": "https://www.linkedin.com/company/assertoai"
+  }
+}
