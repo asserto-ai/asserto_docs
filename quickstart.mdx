@@ -68,19 +68,30 @@ In the right-side panel, go to the **Config** tab. Here you'll configure how the
 - This matches the key in the expected LLM JSON response
 - Used for validation and test automation
 
+#### Step 4: Try a Negative Input
+
+You can try this input in the playground later:
+
+```json
+{
+  "review": "The plot was confusing, the pacing was terrible, and the acting was wooden."
+}
+```
+
 ---
 
-### 4. Try it Out with Playground
+### 4. Run Prompt in Playground
 
 On the right-side panel, switch to the **Playground** tab.
 
-Here you can run quick tests, inspect the LLM response, and make prompt edits.
+Here you can run the prompt manually, inspect the LLM response, and make prompt edits.
 
 #### Step 1: Add Sample Input
 
-Provide a test value for the `review` parameter. For example:
+Provide a sample value for the `review` parameter. For example:
 
 **Positive review**
+
 ```json
 {
   "review": "A visually stunning masterpiece with a moving story and brilliant acting."
@@ -97,10 +108,90 @@ Provide a test value for the `review` parameter. For example:
 
 Try different inputs to validate how well the prompt handles variations.
 
-**Negative review**
-```json
-{
-  "review": "The plot was confusing, the pacing was terrible, and the acting was wooden."
-}
+---
+
+### 5. Add a Test Case
+
+On the right-side panel, switch to the **Test Cases** tab.
+
+Test Cases allow you to define fixed inputs and expected outputs that can be validated automatically. This is useful for regression testing and prompt versioning.
+
+#### Step 1: Add Test Case
+
+- Click **Add Case**
+- Fill the name: `positive 1`
+- For parameter values, set `review` to:
+
+```text
+A visually stunning masterpiece with a moving story and brilliant acting.
 ```
 
+- Click **Save**
+
+#### Step 2: Add Assertion
+
+- After saving the test case, click **Add Assertion**
+- Select  **property**   `sentiment` as the output field to check
+- Set the **operation**  to `equal`
+- Set **Expected**   text output to  `positive`
+- Save the assertion
+
+You now have a fully defined test case that will automatically validate that the prompt produces the expected output for the given input.
+
+Repeat the steps to add a negative test case as well.
+
+---
+
+### 6. Run Test Cases
+
+On the right-side panel, switch to the **Test Runner** tab to validate your prompt automatically using the test cases you've defined.
+
+#### Step 1: Run All Tests
+
+Click the **Run All** button to execute all your test cases.
+
+Each test case will run the LLM with the given input and compare the output against the expected assertion(s).
+
+#### Step 2: Set API Key (if required)
+
+If this is your first time running tests or if the API key is missing/expired:
+
+- You'll be prompted to set the API key for your LLM provider (e.g., OpenAI, Anthropic)
+- You can find this in the **Settings** panel if you need to update it later
+
+#### Step 3: Review Results
+
+- The test run session will show the **pass/fail status** of each test
+- For failures, you can click to inspect the actual vs expected outputs
+- Use this feedback to iterate on your prompt or test assertions
+
+---
+
+### 7. Next Steps
+
+You now have a working prompt with automated test coverage! Here’s what you can do next:
+
+#### 🔁 Iterate and Expand
+
+- Try your prompt with **different models or settings** (e.g., temperature, top-p)
+- Add more **test cases** to cover edge cases and ensure consistency
+- Modify the prompt instructions to improve classification accuracy
+
+#### 🧪 Strengthen Test Coverage
+
+- Add **negative cases**, ambiguous inputs, or malformed reviews
+- Explore **different assertion types** beyond `equal` — e.g., `contains`, `regex`, `in list`
+
+#### 🚀 Deploy and Integrate
+
+- Learn how to **version** your prompts to track improvements over time
+- Explore **deployment options** to integrate your prompts via API or SDK
+- Use **environments** to manage separate dev/staging/prod configurations
+
+---
+
+### 8. Dive Deeper
+
+- Learn about prompt versioning
+- Learn about deployment options to integrate the prompts in your system
+- Learn more about test cases and assertion types
