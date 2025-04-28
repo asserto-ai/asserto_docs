@@ -35,8 +35,8 @@ https://dashboard.mintlify.com/asserto/asserto
 
 ### components
 
-- <CardGroup><Card>
-- <AccordionGroup><Accordion>
+- <CardGroup><Card></Card></CardGroup>
+- <AccordionGroup><Accordion></Accordion></AccordionGroup>
 
 
 ### TODO
