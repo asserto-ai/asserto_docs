@@ -22,8 +22,8 @@ You will see the Prompt Development Dashboard.
 
 In the left panel of the dashboard, you can define the messages that make up the prompt.
 
-#### Step 1: `system` message
-
+<Steps>
+<Step title="`system` message">
 Define the LLM's role and instructions. Specify the expected output format to make the response machine-readable.
 
 ```plaintext
@@ -33,8 +33,9 @@ Classify the following movie review as 'positive' or 'negative'.
 Respond in JSON format:
 {"sentiment": "<result>"}
 ```
+</Step>
 
-#### Step 2: `user` message
+<Step title="`user` message">
 
 Write a template for the user input using a placeholder for the review text.
 
@@ -43,33 +44,34 @@ Templates use Mustache syntax — wrap parameter names in double curly braces (`
 ```mustache
 Review: {{review}}
 ```
+</Step>
+</Steps>
 
----
 
 ## 3. Configure the Prompt
 
 In the right-side panel, go to the **Config** tab. Here you'll configure how the LLM runs and define the inputs and outputs.
 
-#### Step 1: Model Configuration
-
+<Steps>
+<Step title="Model Configuration">
 - Select a model (e.g., `gpt-4`, `claude`, etc.)
 - Set temperature to `0` for consistent deterministic outputs
 - Ensure **response format** is set to `JSON`
+</Step>
 
-#### Step 2: Define Prompt Parameters
-
+<Step title="Define Prompt Parameters">
 - Add a parameter named `review`
 - Set its **type** to `text` to allow multi-line input
 - This corresponds to the `{{review}}` placeholder in your prompt
+</Step>
 
-#### Step 3: Define the Output Schema
-
+<Step title="Define the Output Schema">
 - Add a result field named `sentiment`
 - This matches the key in the expected LLM JSON response
 - Used for validation and test automation
+</Step>
 
-#### Step 4: Try a Negative Input
-
+<Step title="Try a Negative Input">
 You can try this input in the playground later:
 
 ```json
@@ -77,8 +79,9 @@ You can try this input in the playground later:
   "review": "The plot was confusing, the pacing was terrible, and the acting was wooden."
 }
 ```
+</Step>
+</Steps>
 
----
 
 ## 4. Run Prompt in Playground
 
@@ -86,7 +89,8 @@ On the right-side panel, switch to the **Playground** tab.
 
 Here you can run the prompt manually, inspect the LLM response, and make prompt edits.
 
-#### Step 1: Add Sample Input
+<Steps>
+<Step title="Add Sample Input">
 
 Provide a sample value for the `review` parameter. For example:
 
@@ -97,18 +101,19 @@ Provide a sample value for the `review` parameter. For example:
   "review": "A visually stunning masterpiece with a moving story and brilliant acting."
 }
 ```
+</Step>
 
-#### Step 2: Run and Inspect
-
+<Step title="Run and Inspect">
 - Click **Submit**
 - Review the output JSON response
 - Iterate on prompt instructions if necessary for better accuracy
+</Step>
 
-#### Step 3: Repeat with Another Input
-
+<Step title="Repeat with Another Input">
 Try different inputs to validate how well the prompt handles variations.
+</Step>
+</Steps>
 
----
 
 ## 5. Add a Test Case
 
@@ -116,8 +121,8 @@ On the right-side panel, switch to the **Test Cases** tab.
 
 Test Cases allow you to define fixed inputs and expected outputs that can be validated automatically. This is useful for regression testing and prompt versioning.
 
-#### Step 1: Add Test Case
-
+<Steps>
+<Step title="Add Test Case">
 - Click **Add Case**
 - Fill the name: `positive 1`
 - For parameter values, set `review` to:
@@ -127,9 +132,9 @@ A visually stunning masterpiece with a moving story and brilliant acting.
 ```
 
 - Click **Save**
+</Step>
 
-#### Step 2: Add Assertion
-
+<Step title="Add Assertion">
 - After saving the test case, click **Add Assertion**
 - Select  **property**   `sentiment` as the output field to check
 - Set the **operation**  to `equal`
@@ -139,56 +144,46 @@ A visually stunning masterpiece with a moving story and brilliant acting.
 You now have a fully defined test case that will automatically validate that the prompt produces the expected output for the given input.
 
 Repeat the steps to add a negative test case as well.
+</Step>
+</Steps>
 
----
 
 ## 6. Run Test Cases
 
 On the right-side panel, switch to the **Test Runner** tab to validate your prompt automatically using the test cases you've defined.
 
-#### Step 1: Run All Tests
+<Steps>
+<Step title="Run All Tests">
 
 Click the **Run All** button to execute all your test cases.
 
 Each test case will run the LLM with the given input and compare the output against the expected assertion(s).
+</Step>
 
-#### Step 2: Set API Key (if required)
-
+<Step title="Set API Key (if required)">
 If this is your first time running tests or if the API key is missing/expired:
 
 - You'll be prompted to set the API key for your LLM provider (e.g., OpenAI, Anthropic)
 - You can find this in the **Settings** panel if you need to update it later
+</Step>
 
-#### Step 3: Review Results
-
+<Step title="Review Results">
 - The test run session will show the **pass/fail status** of each test
 - For failures, you can click to inspect the actual vs expected outputs
 - Use this feedback to iterate on your prompt or test assertions
+</Step>
+</Steps>
 
----
 
 ## 7. Next Steps
 
 You now have a working prompt with automated test coverage! Here’s what you can do next:
 
-#### 🔁 Iterate and Expand
-
 - Try your prompt with **different models or settings** (e.g., temperature, top-p)
 - Add more **test cases** to cover edge cases and ensure consistency
-- Modify the prompt instructions to improve classification accuracy
-
-#### 🧪 Strengthen Test Coverage
-
 - Add **negative cases**, ambiguous inputs, or malformed reviews
-- Explore **different assertion types** beyond `equal` — e.g., `contains`, `regex`, `in list`
+- Explore **different assertion types** beyond `equal` — e.g., `contains`, `regex`, `in list- Modify the prompt instructions to improve classification accuracy
 
-#### 🚀 Deploy and Integrate
-
-- Learn how to **version** your prompts to track improvements over time
-- Explore **deployment options** to integrate your prompts via API or SDK
-- Use **environments** to manage separate dev/staging/prod configurations
-
----
 
 ## 8. Dive Deeper
 
