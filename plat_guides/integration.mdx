@@ -1,0 +1,105 @@
+---
+sidebarTitle: Prompt Integration
+title: "Integrating prompts into your system"
+description: ""
+---
+
+
+When your prompt is ready for production, you can easily integrate it into your system.
+
+Asserto functions as a CMS for your prompts, separating prompt content from your application code. Once integrated, you can push prompt updates without the need to redeploy your system—keeping your production workflow lean and flexible.
+
+---
+
+## 1. Getting the Prompt Content (Messages and Configuration)
+
+Prompt data includes the **messages** to be sent to LLM and configuration options like model name and __temperature__.
+
+```json
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": {
+        "type": "text",
+        "text": "You are a sentiment classifier.\nClassify the following movie review as 'positive' or 'negative'.\nRespond in JSON format:\n{\"sentiment\": \"<result>\"}\n"
+      }
+    },
+    {
+      "role": "user",
+      "content": {
+        "type": "text",
+        "text": "Review: {{review}}"
+      }
+    }
+  ],
+  "model": "gpt-4o-mini",
+  "temperature": 0.1
+}
+```
+
+You can retrieve this information in two ways:
+
+
+### Export as JSON via the UI
+
+From the Prompt Page, click the **Use Prompt** button and select **Export as JSON**.
+You can also export all prompts at once from the prompt-list page.
+
+### Get Prompt via API
+
+Generate a project API key from the [Settings page](https://app.asserto.ai/settings).
+
+Use the following endpoint to fetch the prompt definition:
+
+```bash
+curl -H "Authorization: YOU_API_KEY" https://app.asserto.ai/api/prompt/PROMPT_SLUG
+```
+
+Refer to the API documentation for more details.
+
+
+
+## 2. Sample Code for Integration with OpenAI API
+
+Once you have the prompt messages and configuration, you can render them and send the request using the OpenAI API.
+
+Here’s an example in python using [chevron](https://github.com/noahmorrison/chevron), a Mustache templating library:
+
+```python
+from openai import OpenAI
+from chevron import renderer
+
+
+# Set OPENAI_API_KEY. See https://platform.openai.com/docs/quickstart
+client = OpenAI()
+
+# TODO: Replace with values
+data = {
+    "review": None,
+}
+
+messages = [
+    {
+        "role": "system",
+        "content": {"type": "text", "text": "You are a sentiment classifier.\nClassify the following movie review as 'positive' or 'negative'.\nRespond in JSON format:\n{\"sentiment\": \"<result>\"}\n"}
+    },
+    {
+        "role": "user",
+        "content": {"type": "text", "text": "Review: {{review}}"}
+    },
+]
+rendered_messages = []
+for msg in messages:
+    msg['content'] = renderer.render(msg['content']['text'], data)
+    rendered_messages.append(msg)
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=rendered_messages,
+    temperature=0.1,
+)
+```
+
+
+By combining this with the prompt API, your system can stay in sync with content changes without code changes or redeployments.

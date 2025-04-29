@@ -20,6 +20,12 @@
               "introduction",
               "quickstart"
             ]
+          },
+          {
+            "group": "Platform Guides",
+            "pages": [
+              "plat_guides/integration"
+            ]
           }
         ]
       }
