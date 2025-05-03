@@ -41,6 +41,11 @@
           "anchor": "Website",
           "href": "https://asserto.ai",
           "icon": "globe"
+        },
+        {
+          "anchor": "YouTube",
+          "href": "https://www.youtube.com/@AssertoAI",
+          "icon": "youtube"
         }
       ]
     }
