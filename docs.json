@@ -26,6 +26,10 @@
             "pages": [
               "plat_guides/integration"
             ]
+          },
+          {
+            "group": "API Reference",
+            "openapi": "openapi.json"
           }
         ]
       }
