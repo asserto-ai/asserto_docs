@@ -3,33 +3,28 @@
   "info": {
     "title": "Asserto AI - API",
     "description": "API for Asserto  AI",
-    "version": "1.0.0"
+    "version": "0.1.0"
   },
   "paths": {
-    "/api/prompt/export": {
+    "/api/prompts": {
       "get": {
         "tags": [
           "API"
         ],
-        "summary": "Api Prompts Export",
-        "description": "Get all project prompts.",
-        "operationId": "api_prompts_export_api_prompt_export_get",
+        "summary": "/prompts",
+        "description": "Get all project's prompts. The project is given by its API key.",
+        "operationId": "prompts_list_api_prompts_get",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
+              "type": "string",
+              "description": "API Key in the format: `Authorization: ApiKey <key>`",
               "title": "Authorization"
-            }
+            },
+            "description": "API Key in the format: `Authorization: ApiKey <key>`"
           }
         ],
         "responses": {
@@ -37,7 +32,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/PromptListResponse"
+                }
               }
             }
           },
@@ -54,14 +51,14 @@
         }
       }
     },
-    "/api/prompt/{slug}": {
+    "/api/prompts/{slug}": {
       "get": {
         "tags": [
           "API"
         ],
-        "summary": "Prompt Get",
+        "summary": "/prompts/{slug}",
         "description": "Get single prompt by slug.",
-        "operationId": "prompt_get_api_prompt__slug__get",
+        "operationId": "prompts_get_api_prompts__slug__get",
         "parameters": [
           {
             "name": "slug",
@@ -77,16 +74,11 @@
             "in": "header",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
+              "type": "string",
+              "description": "API Key in the format: `Authorization: ApiKey <key>`",
               "title": "Authorization"
-            }
+            },
+            "description": "API Key in the format: `Authorization: ApiKey <key>`"
           }
         ],
         "responses": {
@@ -94,7 +86,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/PromptResponse"
+                }
               }
             }
           },
@@ -114,6 +108,28 @@
   },
   "components": {
     "schemas": {
+      "ContentText": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "text"
+            ],
+            "const": "text",
+            "title": "Type"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "text"
+        ],
+        "title": "ContentText"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -126,6 +142,108 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "ModelInfo": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ModelInfo"
+      },
+      "PromptListResponse": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/PromptResponse"
+            },
+            "type": "array",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "PromptListResponse"
+      },
+      "PromptMessageMCP": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "content": {
+            "$ref": "#/components/schemas/ContentText"
+          }
+        },
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "PromptMessageMCP",
+        "description": "prompt message as used in MCP protocol"
+      },
+      "PromptResponse": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/PromptMessageMCP"
+            },
+            "type": "array",
+            "title": "Messages"
+          },
+          "variables": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variables"
+          },
+          "model": {
+            "$ref": "#/components/schemas/ModelInfo"
+          },
+          "temperature": {
+            "type": "number",
+            "title": "Temperature"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "messages",
+          "model",
+          "temperature"
+        ],
+        "title": "PromptResponse"
       },
       "ValidationError": {
         "properties": {

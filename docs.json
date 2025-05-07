@@ -29,7 +29,10 @@
           },
           {
             "group": "API Reference",
-            "openapi": "openapi.json"
+            "pages": [
+              "api_pages/prompt-list",
+              "api_pages/prompt-item"
+            ]
           }
         ]
       }
