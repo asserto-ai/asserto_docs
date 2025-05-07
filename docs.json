@@ -30,8 +30,9 @@
           {
             "group": "API Reference",
             "pages": [
-              "api_pages/prompt-list",
-              "api_pages/prompt-item"
+              "api_reference/introduction",
+              "api_reference/prompt-list",
+              "api_reference/prompt-item"
             ]
           }
         ]

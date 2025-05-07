@@ -1,0 +1,28 @@
+---
+sidebarTitle: Introduction
+title: "Introduction to API usage"
+description: "How to use Asserto API"
+---
+
+
+## Usage
+
+Asserto UI helps you design, test, and refine your LLM prompts.
+
+Once your prompts are production-ready, you can integrate them into your system using the Asserto API. This enables your system to dynamically use the prompts at runtime without needing to redeploy your application.
+
+## Authentication
+
+In order to use Asserto AI API you must first create an API KEY.
+
+Head to the project settings page.
+
+Generate a key and make sure to store it in a safe location.
+After creation the key is not displayed again.
+
+To authenticate your requests, include the API key in the Authorization HTTP header using the following format:
+
+
+```bash
+curl -H "Authorization: ApiKey <YOUR_API_KEY>" https://app.asserto.ai/api/prompts
+```

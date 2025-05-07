@@ -17,6 +17,7 @@ Prompt data includes the **messages** to be sent to LLM and configuration option
 
 ```json
 {
+  "slug": "my-prompt",
   "messages": [
     {
       "role": "system",
@@ -33,7 +34,10 @@ Prompt data includes the **messages** to be sent to LLM and configuration option
       }
     }
   ],
-  "model": "gpt-4o-mini",
+  "model": {
+    "name": "gpt-4o-mini",
+    "url": null,
+  },
   "temperature": 0.1
 }
 ```
@@ -53,10 +57,10 @@ Generate a project API key from the [Settings page](https://app.asserto.ai/setti
 Use the following endpoint to fetch the prompt definition:
 
 ```bash
-curl -H "Authorization: YOU_API_KEY" https://app.asserto.ai/api/prompt/PROMPT_SLUG
+curl -H "Authorization: ApiKey <YOUR_API_KEY>" https://app.asserto.ai/api/prompts/PROMPT_SLUG
 ```
 
-Refer to the API documentation for more details.
+Refer to the [API documentation](/api_reference/introduction#authentication) for more details.
 
 
 
