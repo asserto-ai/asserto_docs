@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://asserto.ai/api",
+      "url": "https://app.asserto.ai",
       "description": "Production server"
     }
   ],
