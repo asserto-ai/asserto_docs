@@ -5,13 +5,19 @@
     "description": "API for Asserto  AI",
     "version": "0.1.0"
   },
+  "servers": [
+    {
+      "url": "https://asserto.ai/api",
+      "description": "Production server"
+    }
+  ],
   "paths": {
     "/api/prompts": {
       "get": {
         "tags": [
           "API"
         ],
-        "summary": "/prompts",
+        "summary": "Prompt List",
         "description": "Get all project's prompts. The project is given by its API key.",
         "operationId": "prompts_list_api_prompts_get",
         "parameters": [
@@ -56,8 +62,8 @@
         "tags": [
           "API"
         ],
-        "summary": "/prompts/{slug}",
-        "description": "Get single prompt by slug.",
+        "summary": "Prompt by Slug",
+        "description": "Get single prompt by slug.\n\nGet only major versions",
         "operationId": "prompts_get_api_prompts__slug__get",
         "parameters": [
           {
@@ -215,17 +221,10 @@
             "title": "Messages"
           },
           "variables": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
             "title": "Variables"
           },
           "model": {
@@ -240,6 +239,7 @@
         "required": [
           "slug",
           "messages",
+          "variables",
           "model",
           "temperature"
         ],
