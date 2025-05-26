@@ -28,6 +28,12 @@
             ]
           },
           {
+            "group": "Updates",
+            "pages": [
+              "changelog"
+            ]
+          },
+          {
             "group": "API Reference",
             "pages": [
               "api_reference/introduction",
