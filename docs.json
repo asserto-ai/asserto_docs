@@ -24,6 +24,7 @@
           {
             "group": "Platform Guides",
             "pages": [
+              "plat_guides/custom-providers",
               "plat_guides/integration"
             ]
           },

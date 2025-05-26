@@ -1,0 +1,52 @@
+---
+title: Custom Providers
+description: How to add and use custom LLM providers in Asserto AI
+---
+
+
+## Introduction
+
+Asserto AI supports custom LLM providers, it uses  [Ollama-style chat completions API](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion). 
+
+
+### Chat Completions Endpoint
+
+Example request sent by Asserto AI
+
+Request Body:
+
+```json
+{
+  "model": "your-model-name",
+  "format": "json",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a helpful assistant."
+    },
+    {
+      "role": "user",
+      "content": "Hello, how are you?"
+    }
+  ],
+  "stream": false
+}
+```
+
+## Adding a Custom Provider
+
+1. **Navigate to Providers**: Select *Providers* from the sidebar.
+2. **Add New Provider**: Click *Add New Provider*.
+3. **Configure Details**:
+  - Model: i.e. `llama3.2:1b`
+  - Base URL: Your API endpoint (e.g., `https://api.yourprovider.com/api/chat`)
+  - Config: You can add custom headers and query parameters to be included in all requests.
+
+## Usage
+
+Once configured, custom providers appear in the model selection dropdown. It can be used both in the playground and on test-runner.
+
+
+<Check>Both JSON and plain text responses are supported.</Check>
+
+<Warning>As of today, streaming and tools are not supported.</Warning>
