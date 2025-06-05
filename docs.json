@@ -22,6 +22,12 @@
             ]
           },
           {
+            "group": "Visualizations",
+            "pages": [
+              "viz/confusion-matrix"
+            ]
+          },
+          {
             "group": "Platform Guides",
             "pages": [
               "plat_guides/custom-providers",

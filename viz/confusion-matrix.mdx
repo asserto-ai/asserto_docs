@@ -1,0 +1,67 @@
+---
+title: Confusion Matrix
+description: Visualize classification with Confusion Matrix
+---
+
+
+## Confusion Matrix for Multi-Class Classification
+
+A **confusion matrix** is a key tool for understanding the performance of classification tasks, especially when you have more than two possible output categories (multi-class). It summarizes how often each class was correctly predicted versus misclassified.
+
+Here's an example of a confusion matrix from an intent classification prompt with five possible intents:
+
+![Confusion Matrix](/images/confusion-matrix.png)
+
+- **Rows**: Expected (ground truth) categories
+- **Columns**: System output (predicted categories)
+- **Diagonal cells**: Correct predictions; off-diagonal cells indicate mistakes
+- **Per-class Precision, Recall, F1 Score**: Show which categories need improvement
+- **Overall metrics**: Quick view of total accuracy and F1
+
+---
+
+## Example: Intent Classification & LLM Tool-Use
+
+Suppose your LLM prompt classifies user queries into intents such as "Order Management" or "Executive Summary." This is a classic multi-class classification problem.
+
+Similarly, LLM "tool-use" (function calling) is evaluated in the same way: the LLM chooses one function from a set (e.g., `getWeather`, `lookupOrder`, `summarizeReport`). Each tool or function is treated as a class, and you can use a confusion matrix to analyze accuracy and errors for each function.
+
+---
+
+## Using Confusion Matrices in Asserto AI
+
+You can easily set up and visualize a confusion matrix for your classification or tool-use prompts in Asserto AI. Here’s how:
+
+<Steps>
+<Step title="Add a Metric in Prompt Workbench">
+On your prompt's page, go to the <b>Config</b> tab. Under <b>Metrics</b>, click <b>Add Metric</b>.
+</Step>
+
+<Step title="Configure as Confusion Matrix">
+Set the visualization type to <b>Confusion Matrix</b>. Enter all possible classes/labels your prompt can output (e.g., intent types or function names).
+</Step>
+
+<Step title="Create a Test Case">
+Switch to the <b>Test Cases</b> tab. Add a new test case with input data.
+</Step>
+
+<Step title="Add an Assertion Using Your Metric">
+Within the test case, add an assertion. When selecting the metric, choose the confusion matrix metric you created.
+</Step>
+
+<Step title="Run Your Tests">
+Go to the <b>Test Runner</b> tab and run your test suite.
+</Step>
+
+<Step title="Review Results in the Session Page">
+After running tests, open the <b>Session Page</b> in the dashboard. Here you’ll see the confusion matrix visualization, with per-class and overall accuracy metrics.
+</Step>
+</Steps>
+
+<Check>
+Confusion matrices help you evaluate both classification from text and JSON outputs and tool/function-calling prompts with multiple categories.
+</Check>
+
+---
+
+Use these visualizations to iterate quickly and confidently on your prompt and function-calling logic!
