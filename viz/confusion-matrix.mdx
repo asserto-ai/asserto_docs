@@ -37,6 +37,10 @@ You can easily set up and visualize a confusion matrix for your classification o
 On your prompt's page, go to the <b>Config</b> tab. Under <b>Metrics</b>, click <b>Add Metric</b>.
 </Step>
 
+<Step title="Set metric Property">
+If the prompts outputs JSON, select the property in the result JSON that the visualization will be based on.
+</Step>
+
 <Step title="Configure as Confusion Matrix">
 Set the visualization type to <b>Confusion Matrix</b>. Enter all possible classes/labels your prompt can output (e.g., intent types or function names).
 </Step>
@@ -46,7 +50,7 @@ Switch to the <b>Test Cases</b> tab. Add a new test case with input data.
 </Step>
 
 <Step title="Add an Assertion Using Your Metric">
-Within the test case, add an assertion. When selecting the metric, choose the confusion matrix metric you created.
+Within the test case, add an assertion. Select the same <b>property</b> as you created the visualization. Set the operation to <b>equal</b>. The system will automatically link the visualization based in the property.
 </Step>
 
 <Step title="Run Your Tests">
