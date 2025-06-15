@@ -1,0 +1,64 @@
+---
+sidebarTitle: 'Testing & Evaluations'
+title: 'A guide to designing automated test cases for evaluating LLM prompts'
+description: 'Documentation of test case design, assertion operations, and computation methods (code-based and LLM-based) for evaluating LLM prompts in Asserto AI.'
+
+---
+
+
+## Introduction
+
+In Asserto AI, Testing and Evaluations are organized with Test Cases and Assertions.
+Assertions are checks on the output that match your expectations.
+
+Tests are built as data-driven, no code required. You define input data and expected outputs, and the system checks whether the prompt output matches your expectations.
+
+<Note>
+The term **Automated tests** refers to the automated validation and scoring of the performed tests and evaluations. No human is needed to validate the outputs. Tests are not created automatically — this system helps you create and run tests.
+</Note>
+
+## Test Cases
+
+A test case defines:
+
+**Input data**: Set the value for individual parameters used in your prompt templates.
+
+**Assertions**: A test case can define one or more assertions.
+
+
+## Assertions
+
+Supported operations:
+
+- equal
+- contains
+- greater
+
+Often the LLM output does not provide a direct value to be checked on. In this case a computation can be used as an intermediate step in the assertion.
+
+
+## Computations
+
+
+Computations can be code-based or LLM-based (aka LLM-as-Judge).
+
+Both reference-free and reference-based computations are supported.
+In case of reference-based computation, you need to input a target value (or ground truth).
+
+
+### Code-based computations
+
+
+<ResponseField name="character-count" type="reference-free">
+  A simple character-count to measure the output length.
+</ResponseField>
+
+
+<ResponseField name="similarity" type="reference-based">
+Semantic Textual Similarity based on `cross-encoder/stsb-distilroberta-base`.
+
+To be used when you need accurate similarity scores for sentence pairs.
+ - "My app crashes when clicking login"
+ - "App crashes after pressing login button"
+</ResponseField>
+
