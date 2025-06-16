@@ -25,6 +25,7 @@
           {
             "group": "Visualizations",
             "pages": [
+              "viz/dashboard",
               "viz/confusion-matrix"
             ]
           },
