@@ -39,7 +39,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PromptListResponse"
+                  "$ref": "#/components/schemas/APIPromptList"
                 }
               }
             }
@@ -93,7 +93,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PromptResponse"
+                  "$ref": "#/components/schemas/PromptSchema"
                 }
               }
             }
@@ -114,13 +114,26 @@
   },
   "components": {
     "schemas": {
+      "APIPromptList": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/PromptSchema"
+            },
+            "type": "array",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "APIPromptList"
+      },
       "ContentText": {
         "properties": {
           "type": {
             "type": "string",
-            "enum": [
-              "text"
-            ],
             "const": "text",
             "title": "Type"
           },
@@ -136,6 +149,17 @@
         ],
         "title": "ContentText"
       },
+      "GenerationParams": {
+        "properties": {
+          "temperature": {
+            "type": "number",
+            "title": "Temperature",
+            "default": 0.1
+          }
+        },
+        "type": "object",
+        "title": "GenerationParams"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -149,11 +173,93 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "MCP_PromptMessage": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "content": {
+            "$ref": "#/components/schemas/ContentText"
+          }
+        },
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "MCP_PromptMessage",
+        "description": "prompt message as used in MCP protocol"
+      },
+      "MCP_ToolDef": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "inputSchema": {
+            "$ref": "#/components/schemas/MCP_Tool_InputSchema"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "inputSchema"
+        ],
+        "title": "MCP_ToolDef"
+      },
+      "MCP_Tool_InputSchema": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "object",
+            "title": "Type",
+            "default": "object"
+          },
+          "properties": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Properties"
+          },
+          "required": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Required"
+          }
+        },
+        "type": "object",
+        "required": [
+          "properties",
+          "required"
+        ],
+        "title": "MCP_Tool_InputSchema"
+      },
       "ModelInfo": {
         "properties": {
           "name": {
             "type": "string",
             "title": "Name"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider"
           },
           "url": {
             "anyOf": [
@@ -169,45 +275,13 @@
         },
         "type": "object",
         "required": [
-          "name"
+          "name",
+          "kind",
+          "provider"
         ],
         "title": "ModelInfo"
       },
-      "PromptListResponse": {
-        "properties": {
-          "data": {
-            "items": {
-              "$ref": "#/components/schemas/PromptResponse"
-            },
-            "type": "array",
-            "title": "Data"
-          }
-        },
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "title": "PromptListResponse"
-      },
-      "PromptMessageMCP": {
-        "properties": {
-          "role": {
-            "type": "string",
-            "title": "Role"
-          },
-          "content": {
-            "$ref": "#/components/schemas/ContentText"
-          }
-        },
-        "type": "object",
-        "required": [
-          "role",
-          "content"
-        ],
-        "title": "PromptMessageMCP",
-        "description": "prompt message as used in MCP protocol"
-      },
-      "PromptResponse": {
+      "PromptSchema": {
         "properties": {
           "slug": {
             "type": "string",
@@ -215,35 +289,55 @@
           },
           "messages": {
             "items": {
-              "$ref": "#/components/schemas/PromptMessageMCP"
+              "$ref": "#/components/schemas/MCP_PromptMessage"
             },
             "type": "array",
             "title": "Messages"
+          },
+          "model": {
+            "$ref": "#/components/schemas/ModelInfo"
+          },
+          "genParams": {
+            "$ref": "#/components/schemas/GenerationParams"
+          },
+          "respFormat": {
+            "type": "string",
+            "title": "Respformat"
           },
           "variables": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Variables"
+            "title": "Variables",
+            "default": []
           },
-          "model": {
-            "$ref": "#/components/schemas/ModelInfo"
-          },
-          "temperature": {
-            "type": "number",
-            "title": "Temperature"
+          "tools": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/MCP_ToolDef"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tools"
           }
         },
         "type": "object",
         "required": [
           "slug",
           "messages",
-          "variables",
           "model",
-          "temperature"
+          "genParams",
+          "respFormat",
+          "tools"
         ],
-        "title": "PromptResponse"
+        "title": "PromptSchema",
+        "description": "Prompt info with nested tool definitions"
       },
       "ValidationError": {
         "properties": {
