@@ -4,9 +4,9 @@
   "name": "Asserto AI docs",
   "description": "Asserto AI is a SaaS platform and collaborative IDE designed for optimizing Large Language Model (LLM) application development, providing tools for efficient testing and prompt management.",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373"
+    "primary": "#3f4ddc",
+    "light": "#8b93ff",
+    "dark": "#2d3a99"
   },
   "favicon": "/logo/favicon.png",
   "navigation": {
