@@ -8,7 +8,7 @@
     "light": "#07C983",
     "dark": "#0D9373"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/logo/favicon.png",
   "navigation": {
     "tabs": [
       {
@@ -75,8 +75,8 @@
     }
   },
   "logo": {
-    "light": "/logo/asserto-logo.png",
-    "dark": "/logo/asserto-logo.png"
+    "light": "/logo/logo-asserto-dark.svg",
+    "dark": "/logo/logo-asserto-light.svg"
   },
   "navbar": {
     "links": [
