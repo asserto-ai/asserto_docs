@@ -38,6 +38,7 @@
           {
             "group": "Platform Guides",
             "pages": [
+              "plat_guides/projects",
               "plat_guides/llm-providers",
               "plat_guides/custom-providers",
               "plat_guides/integration"
