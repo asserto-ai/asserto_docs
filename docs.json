@@ -17,9 +17,14 @@
           {
             "group": "Get Started",
             "pages": [
-              "introduction",
-              "quickstart",
-              "testing"
+              "platform-overview",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Testing & Evaluation",
+            "pages": [
+              "testing/introduction"
             ]
           },
           {
