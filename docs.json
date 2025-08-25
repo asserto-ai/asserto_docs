@@ -24,7 +24,8 @@
           {
             "group": "Testing & Evaluation",
             "pages": [
-              "testing/introduction"
+              "testing/introduction",
+              "testing/mock-tool-use"
             ]
           },
           {
