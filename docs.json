@@ -55,7 +55,8 @@
             "pages": [
               "api_reference/introduction",
               "api_reference/prompt-list",
-              "api_reference/prompt-item"
+              "api_reference/prompt-item",
+              "api_reference/graph-export"
             ]
           }
         ]
