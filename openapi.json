@@ -110,6 +110,51 @@
           }
         }
       }
+    },
+    "/api/graph": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "summary": "Project Graph Export",
+        "description": "Export project graph in simplified Prompt Flow JSON format for external integrations.\n\nReturns a graph structure with nodes and edges in a standardized format suitable\nfor external workflow tools and integrations.",
+        "operationId": "graph_export_api_graph_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "API Key in the format: `Authorization: ApiKey <key>`",
+              "title": "Authorization"
+            },
+            "description": "API Key in the format: `Authorization: ApiKey <key>`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PFGraph"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -173,6 +218,47 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "LLMPricing": {
+        "properties": {
+          "tkInput": {
+            "type": "string",
+            "title": "Tkinput"
+          },
+          "tkOutput": {
+            "type": "string",
+            "title": "Tkoutput"
+          },
+          "tkCacheWrite": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tkcachewrite"
+          },
+          "tkCacheRead": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tkcacheread"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tkInput",
+          "tkOutput"
+        ],
+        "title": "LLMPricing",
+        "description": "Pricing in USD per 1M tokens"
+      },
       "MCP_PromptMessage": {
         "properties": {
           "role": {
@@ -198,15 +284,9 @@
             "title": "Name"
           },
           "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
+            "type": "string",
+            "title": "Description",
+            "default": ""
           },
           "inputSchema": {
             "$ref": "#/components/schemas/MCP_Tool_InputSchema"
@@ -249,12 +329,27 @@
       },
       "ModelInfo": {
         "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
           "name": {
             "type": "string",
             "title": "Name"
           },
           "kind": {
             "type": "string",
+            "enum": [
+              "system",
+              "custom"
+            ],
             "title": "Kind"
           },
           "provider": {
@@ -271,6 +366,28 @@
               }
             ],
             "title": "Url"
+          },
+          "config": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config"
+          },
+          "pricing": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LLMPricing"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "type": "object",
@@ -280,6 +397,72 @@
           "provider"
         ],
         "title": "ModelInfo"
+      },
+      "PFEdge": {
+        "properties": {
+          "src": {
+            "type": "string",
+            "title": "Src"
+          },
+          "tgt": {
+            "type": "string",
+            "title": "Tgt"
+          }
+        },
+        "type": "object",
+        "required": [
+          "src",
+          "tgt"
+        ],
+        "title": "PFEdge"
+      },
+      "PFGraph": {
+        "properties": {
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/PFNode"
+            },
+            "type": "array",
+            "title": "Nodes"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/PFEdge"
+            },
+            "type": "array",
+            "title": "Edges"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nodes",
+          "edges"
+        ],
+        "title": "PFGraph"
+      },
+      "PFNode": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "params": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Params"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "params"
+        ],
+        "title": "PFNode"
       },
       "PromptSchema": {
         "properties": {
@@ -303,6 +486,16 @@
           "respFormat": {
             "type": "string",
             "title": "Respformat"
+          },
+          "outputSchema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SchemaJsonFormat"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "variables": {
             "items": {
@@ -338,6 +531,124 @@
         ],
         "title": "PromptSchema",
         "description": "Prompt info with nested tool definitions"
+      },
+      "SchemaJsonFormat": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "title": "Name",
+            "description": "Schema name. Must match pattern: ^[a-zA-Z0-9_-]+$"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "A brief description of the Schema."
+          },
+          "schema": {
+            "$ref": "#/components/schemas/SchemaJsonProperties",
+            "description": "Schema that describes the output."
+          },
+          "strict": {
+            "type": "boolean",
+            "title": "Strict",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "schema"
+        ],
+        "title": "SchemaJsonFormat",
+        "description": "Schema for response when using response format json_schema"
+      },
+      "SchemaJsonProp": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "description": "The data type of the parameter, e.g., 'string', 'number', 'object'."
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the parameter."
+          },
+          "properties": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/SchemaJsonProp"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Properties",
+            "description": "Dictionary of parameter names to their definitions."
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "SchemaJsonProp"
+      },
+      "SchemaJsonProperties": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "object",
+            "title": "Type",
+            "default": "object"
+          },
+          "properties": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/SchemaJsonProp"
+            },
+            "type": "object",
+            "title": "Properties",
+            "description": "Dictionary of parameter names to their definitions."
+          },
+          "required": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Required",
+            "description": "List of required parameters.",
+            "default": []
+          },
+          "additionalProperties": {
+            "type": "boolean",
+            "title": "Additionalproperties",
+            "description": "Indicates if additional properties are allowed.",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "properties"
+        ],
+        "title": "SchemaJsonProperties"
       },
       "ValidationError": {
         "properties": {
